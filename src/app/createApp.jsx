@@ -5,13 +5,11 @@ import { Layout } from '../components/Layout.jsx';
 import { Navbar } from '../components/Navbar.jsx';
 import { Form } from '../components/Form.jsx';
 import { Footer } from '../components/Footer.jsx';
-import { UpdateChecker } from '../components/UpdateChecker.jsx';
 import { SingboxConfigBuilder } from '../builders/SingboxConfigBuilder.js';
 import { ClashConfigBuilder } from '../builders/ClashConfigBuilder.js';
 import { SurgeConfigBuilder } from '../builders/SurgeConfigBuilder.js';
-import { createTranslator, resolveLanguage } from '../i18n/index.js';
+import { createTranslator } from '../i18n/index.js';
 import { encodeBase64, tryDecodeSubscriptionLines } from '../utils.js';
-import { APP_NAME, APP_SUBTITLE } from '../constants.js';
 import { ShortLinkService } from '../services/shortLinkService.js';
 import { ConfigStorageService } from '../services/configStorageService.js';
 import { ServiceError, MissingDependencyError } from '../services/errors.js';
@@ -39,8 +37,6 @@ export function createApp(bindings = {}) {
 
     app.get('/', (c) => {
         const t = c.get('t');
-        const lang = resolveLanguage(c.get('lang'));
-        const subtitle = APP_SUBTITLE[lang] || APP_SUBTITLE['zh-CN'];
 
         return c.html(
             <Layout title={t('pageTitle')} description={t('pageDescription')} keywords={t('pageKeywords')}>
@@ -51,18 +47,14 @@ export function createApp(bindings = {}) {
                             <div class="max-w-4xl mx-auto">
                                 <div class="text-center mb-12 pt-8">
                                     <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
-                                        {APP_NAME}
+                                        空行的订阅转换工具
                                     </h1>
-                                    <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                                        {subtitle}
-                                    </p>
                                 </div>
                                 <Form t={t} />
                             </div>
                         </div>
                     </main>
                     <Footer />
-                    <UpdateChecker />
                 </div>
             </Layout>
         );
